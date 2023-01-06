@@ -1,0 +1,22 @@
+docker_build(
+    'python-api', # tilt searches for this image name in k8s manifest file below
+    context='.',
+    dockerfile='Dockerfile',
+    only=['.'],
+    # ignore=['./app/sender.py'],
+    live_update=[
+        sync('.', '/app/app/'),
+        run(
+            'poetry.lock pyproject.toml ./ && pip install --upgrade pip --user',
+            trigger=['./pyproject.toml']
+        )
+    ]
+)
+# k8s_yaml('deploy/app/namespace.yaml')
+k8s_yaml(kustomize('../../deploy/app/python'))
+# k8s_kind('FastAPIInstance', image_json_path='{.spec.parameters.image}')
+# k8s_resource(
+#     'web-api',
+#     labels=['web-api'],
+#     objects=['myapp']
+# )

@@ -1,0 +1,16 @@
+docker_build(
+    'dotnet-api', # tilt searches for this image name in k8s manifest file below
+    context='.',
+    dockerfile='Dockerfile',
+    only=['.'],
+    # ignore=['./app/sender.py'],
+    live_update=[
+        sync('./app/dotnet', '/app/')
+    ]
+)
+k8s_yaml(kustomize('../../deploy/app/dotnet'))
+# k8s_resource(
+#     'web-api',
+#     labels=['web-api'],
+#     objects=['myapp']
+# )

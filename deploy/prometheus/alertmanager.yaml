@@ -1,0 +1,9 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: socks-shop
+spec:
+  replicas: 1
+  alertmanagerConfigSelector:
+    matchLabels:
+      alertmanagerConfig: example

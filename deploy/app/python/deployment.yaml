@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-api
+spec:
+  selector:
+    matchLabels:
+      app: python-api
+  template:
+    metadata:
+      labels:
+        app: python-api
+      annotations:
+        # sidecar.opentelemetry.io/inject: "true"
+        instrumentation.opentelemetry.io/inject-python: "true"
+    spec:
+      containers:
+      - name: python-api
+        image: python-api
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
