@@ -1,0 +1,24 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: python-instrumentation
+  namespace: default
+spec:
+  dotnet:
+    image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-dotnet:0.5.0
+  exporter:
+    endpoint: http://otel-collector:4318
+  propagators:
+  - tracecontext
+  - baggage
+  - b3
+  python:
+    env:
+    - name: OTEL_METRICS_EXPORTER
+      value: otlp_proto_http
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      value: http://otel-collector:4318
+    image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python:0.36b0
+  sampler:
+    argument: "0.25"
+    type: parentbased_traceidratio

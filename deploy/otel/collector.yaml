@@ -1,0 +1,47 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel
+  namespace: default
+  labels:
+    app: otel-python-api
+spec:
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+
+    processors:
+      batch:
+
+    exporters:
+      logging:
+
+      jaeger:
+        endpoint: simplest-collector.observability.svc.cluster.local:14250
+        tls:
+          insecure: true
+      
+      prometheus:
+        endpoint: '0.0.0.0:8889'
+        namespace: default
+
+      otlp:
+        endpoint: '0.0.0.0:8889'
+        tls:
+          insecure: true
+
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging, jaeger]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging, prometheus]
+

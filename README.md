@@ -20,3 +20,7 @@ Install kind, ctlptl, kubectl, helm, docker, k9s and Tilt. For installation guid
 
 1. Deploy Prometheus: `kubectl apply -k deploy/prometheus`. Port-forward the `prometheus-operated` and `alertmanager-operated` services. 
 2. Deploy Jaeger: `kubectl apply -k deploy/jaeger`. Port-forward the `simplest-query port 16686` service.
+
+## Python
+- Injection of OTEL Autoinstrumentation SDK works -> provides traces and metrics
+- Bug with the metrics exporter right now, waiting on PR to be accepted.

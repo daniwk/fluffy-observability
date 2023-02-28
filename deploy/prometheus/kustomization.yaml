@@ -6,3 +6,4 @@ resources:
   - prometheus.yaml
   - alertmanager-config.yaml
   - alertmanager.yaml
+  - service-monitor.yaml
