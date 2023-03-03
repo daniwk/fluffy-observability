@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
-  # - otel-instrumentation.yaml
-  # - otel-collector.yaml
+  - otel-instrumentation.yaml
+  - otel-collector.yaml
+  - service-monitor.yaml

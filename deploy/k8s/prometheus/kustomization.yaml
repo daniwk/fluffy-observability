@@ -7,3 +7,4 @@ resources:
   - alertmanager-config.yaml
   - alertmanager.yaml
   - service-monitor.yaml
+  - rule.yaml

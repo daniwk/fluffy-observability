@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: config-alertmanager
+  labels:
+    alertmanagerConfig: go-api
+spec:
+  route:
+    groupBy: ['job']
+    groupWait: 30s
+    groupInterval: 1m
+    repeatInterval: 12h
+    receiver: 'teams-notifications'
+  receivers:
+  - name: 'teams-webhook' # dummy service, replace with Teams/Slack
+    webhookConfigs:
+    - url: 'https://intility.webhook.office.com/webhookb2/439308e8-2a49-497a-9a3e-dc7dd23cd441@9b5ff18e-53c0-45a2-8bc2-9c0c8f60b2c6/IncomingWebhook/f4cbf7339ef9412c9c4bad736f5e2129/6dfed2e6-3826-468b-b056-f1637b9aca94'

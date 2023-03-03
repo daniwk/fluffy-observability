@@ -12,6 +12,15 @@ spec:
       memory: 400Mi
   enableAdminAPI: false
   enableRemoteWriteReceiver: true
+  alerting:
+    alertmanagers:
+    - name: alertmanager-operated
+      namespace: default
+      port: web
+  ruleSelector:
+    matchLabels:
+      role: alert-rules
+      prometheus: go-api
 ---
 apiVersion: v1
 kind: Service

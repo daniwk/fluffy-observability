@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: otel-python-api
+  labels:
+    name: otel
+spec:
+  selector:
+    matchLabels:
+      app: otel-python-api
+  namespaceSelector:
+    any: true
+  endpoints:
+    - port: monitoring
+      targetPort: 8888
+      path: '/metrics'
