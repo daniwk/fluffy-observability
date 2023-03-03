@@ -1,0 +1,13 @@
+load('ext://uibutton', 'cmd_button')
+
+docker_build('go-api', '.', dockerfile='Dockerfile')
+
+k8s_yaml(kustomize('../../deploy/app/go'))
+k8s_resource('go-api', port_forwards='8080:8080', labels='api')
+
+cmd_button(
+    name='healthz',
+    resource='go-api',
+    argv=['curl', '-s', 'http://localhost:8080/api/v1/healthz'],
+    text='GET Healthz'
+)

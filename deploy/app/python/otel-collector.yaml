@@ -1,0 +1,82 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel
+  namespace: default
+  labels:
+    app: otel-python-api
+spec:
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+
+    processors:
+      batch:
+
+    exporters:
+      logging:
+
+      jaeger:
+        endpoint: simplest-collector.observability.svc.cluster.local:14250
+        tls:
+          insecure: true
+      
+      prometheus:
+        endpoint: '0.0.0.0:8889'
+        namespace: default
+
+      otlp:
+        endpoint: '0.0.0.0:8889'
+        tls:
+          insecure: true
+
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging, jaeger]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging, prometheus]
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel-go-api
+  namespace: default
+  labels:
+    app: otel-go-api
+spec:
+  config: |
+    receivers:
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: otel-go-api-job
+              scrape_interval: 5s
+              static_configs:
+                - targets: [go-api:8080]
+
+    processors:
+      batch:
+
+    exporters:
+      logging:
+      
+      prometheus:
+        endpoint: '0.0.0.0:8889'
+        namespace: default
+
+
+    service:
+      pipelines:
+        metrics:
+          receivers: [prometheus]
+          processors: []
+          exporters: [logging, prometheus]

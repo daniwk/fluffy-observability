@@ -1,0 +1,4 @@
+resources:
+  - api.yaml
+  - otel-collector.yaml
+  - service-monitor.yaml

@@ -14,6 +14,7 @@ docker_build(
 )
 # k8s_yaml('deploy/app/namespace.yaml')
 k8s_yaml(kustomize('../../deploy/app/python'))
+k8s_resource('python-api', port_forwards='8000:8000', labels='api')
 # k8s_kind('FastAPIInstance', image_json_path='{.spec.parameters.image}')
 # k8s_resource(
 #     'web-api',

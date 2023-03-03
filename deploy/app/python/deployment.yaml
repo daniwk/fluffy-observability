@@ -11,7 +11,6 @@ spec:
       labels:
         app: python-api
       annotations:
-        # sidecar.opentelemetry.io/inject: "true"
         instrumentation.opentelemetry.io/inject-python: "true"
     spec:
       containers:
